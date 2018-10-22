@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 def options(opt):
-    pass
+    opt.load('compiler_cxx')
 
 def configure(cfg):
-    pass
+    cfg.load('compiler_cxx')
+    cfg.check_cxx(mandatory=True, header_name='cereal/cereal.hpp')
 
 def build(bld):
     # only export include path, header only lib.
