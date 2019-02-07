@@ -52,4 +52,7 @@ TEST(TypeList, build_alphabets) {
 
 	using a_types_0_index = index_type_list_by_integer<0, a_types>::type;
 	EXPECT_TRUE((std::is_same<a_types_0_index, a>::value));
+
+	auto const sizeof_a_types = type_list_size<a_types>::value;
+	EXPECT_EQ(sizeof_a_types, 3);
 }

@@ -124,4 +124,19 @@ struct index_type_list_by_integer<I, type_list<Ts...>> {
 	using type = typename std::tuple_element<I, std::tuple<Ts...>>::type;
 };
 
+/**
+ * @brief Calculate the size of a type_list.
+ * @return Number of entries in type_list.
+ * @note Duplicate types are counted.
+ */
+template<typename TL>
+struct type_list_size {
+	static_assert(detail::to_false_type<TL>::value, "Parameter not a type_list");
+};
+
+template<typename... Ts>
+struct type_list_size<type_list<Ts...>> {
+	static const size_t value = sizeof...(Ts);
+};
+
 } // namespace hate
