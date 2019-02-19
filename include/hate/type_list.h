@@ -98,13 +98,13 @@ struct index_type_list_by_type {
 
 template<typename T, typename... Ts>
 struct index_type_list_by_type<T, type_list<T, Ts...>> {
-	static const size_t value = 0;
+	static constexpr size_t value = 0;
 	static_assert((!detail::is_in<T, Ts...>::value), "Duplicate type in type_list");
 };
 
 template<typename T, typename U, typename... Ts>
 struct index_type_list_by_type<T, type_list<U, Ts...>> {
-	static const size_t value = 1 + index_type_list_by_type<T, type_list<Ts...>>::value;
+	static constexpr size_t value = 1 + index_type_list_by_type<T, type_list<Ts...>>::value;
 };
 
 
@@ -136,7 +136,7 @@ struct type_list_size {
 
 template<typename... Ts>
 struct type_list_size<type_list<Ts...>> {
-	static const size_t value = sizeof...(Ts);
+	static constexpr size_t value = sizeof...(Ts);
 };
 
 } // namespace hate
