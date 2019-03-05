@@ -55,4 +55,7 @@ TEST(TypeList, build_alphabets) {
 
 	auto const sizeof_a_types = type_list_size<a_types>::value;
 	EXPECT_EQ(sizeof_a_types, 3);
+
+	EXPECT_TRUE((is_in<a, a_types>::value));
+	EXPECT_FALSE((is_in<d, a_types>::value));
 }

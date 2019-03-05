@@ -77,7 +77,19 @@ struct is_in<T, U, Us...> {
 	static constexpr const bool value = std::is_same<T, U>::value || is_in<T, Us...>::value;
 };
 
+/**
+ * @brief Check if type is in type_list.
+ */
+template<typename T, typename... Us>
+struct is_in<T, type_list<Us...>>
+{
+	static constexpr bool value = detail::is_in<T, Us...>::value;
+};
+
 } // namespace detail
+
+template <typename... Ts>
+using is_in = detail::is_in<Ts...>;
 
 /**
  * @brief Concatenation of N type_list types into a single type_list.
