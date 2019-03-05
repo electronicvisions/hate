@@ -1,4 +1,5 @@
-#include <bitset>
+#pragma once
+#include <tuple>
 #include <typeinfo>
 
 namespace hate {
