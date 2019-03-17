@@ -184,6 +184,20 @@ public:
 	constexpr bitset operator<<(size_t const shift) const;
 
 	/**
+	 * Perform >>= operation on bitset for multiples of num_bits_per_word.
+	 * @param word_shift Number of words to shift
+	 * @return (instance >>= word_shift * num_bits_per_word)
+	 */
+	constexpr bitset& shift_words_right(size_t const word_shift);
+
+	/**
+	 * Perform <<= operation on bitset for multiples of num_bits_per_word.
+	 * @param word_shift Number of words to shift
+	 * @return (instance <<= word_shift * num_bits_per_word)
+	 */
+	constexpr bitset& shift_words_left(size_t const word_shift);
+
+	/**
 	 * Create new instance with flipped bits.
 	 * @return New instance with all bits flipped.
 	 */
@@ -608,6 +622,54 @@ constexpr bitset<N, WordType> bitset<N, WordType>::operator<<(size_t const shift
 {
 	bitset ret(*this);
 	return (ret <<= shift);
+}
+
+template <size_t N, class WordType>
+constexpr bitset<N, WordType>& bitset<N, WordType>::shift_words_right(size_t const word_shift)
+{
+	if constexpr (N == 0) {
+		return *this;
+	}
+	if (word_shift == 0) {
+		return *this;
+	}
+	if (word_shift < num_words) {
+		size_t const limit = num_words - word_shift - 1;
+		for (size_t i = 0; i <= limit; ++i) {
+			m_words[i] = m_words[i + word_shift];
+		}
+		for (size_t i = limit + 1; i < num_words; ++i) {
+			m_words[i] = static_cast<word_type>(0);
+		}
+		return *this;
+	} else {
+		reset();
+		return *this;
+	}
+}
+
+template <size_t N, class WordType>
+constexpr bitset<N, WordType>& bitset<N, WordType>::shift_words_left(size_t const word_shift)
+{
+	if constexpr (N == 0) {
+		return *this;
+	}
+	if (word_shift == 0) {
+		return *this;
+	}
+	if (word_shift < num_words) {
+		for (size_t i = num_words - 1; i >= word_shift; --i) {
+			m_words[i] = m_words[i - word_shift];
+		}
+		for (size_t i = 0; i < word_shift; ++i) {
+			m_words[i] = static_cast<word_type>(0);
+		}
+		sanitize();
+		return *this;
+	} else {
+		reset();
+		return *this;
+	}
 }
 
 template <size_t N, class WordType>
