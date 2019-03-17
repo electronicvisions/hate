@@ -354,12 +354,13 @@ constexpr bitset<N, WordType>::bitset(uintmax_t const& value) : m_words()
 	static_assert(
 	    sizeof(uintmax_t) % sizeof(word_type) == 0, "uintmax not divisible by word_type.");
 
-	for (auto& word : m_words) {
-		word = static_cast<word_type>(0);
-	}
 	if constexpr (N > 0) {
-		for (size_t i = 0; i < std::min(num_words, sizeof(uintmax_t) / sizeof(word_type)); ++i) {
+		constexpr size_t num_set_words = std::min(num_words, sizeof(uintmax_t) / sizeof(word_type));
+		for (size_t i = 0; i < num_set_words; ++i) {
 			m_words[i] = static_cast<word_type>(value >> (num_bits_per_word * i));
+		}
+		for (size_t i = num_set_words; i < num_words; ++i) {
+			m_words[i] = static_cast<word_type>(0);
 		}
 		sanitize();
 	}
@@ -375,10 +376,10 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 	        0,
 	    "Word types must have a common divisor");
 
-	for (auto& word : m_words) {
-		word = static_cast<word_type>(0);
-	}
 	if constexpr (sizeof(WordType) > sizeof(OtherWordType)) {
+		for (auto& word : m_words) {
+			word = static_cast<word_type>(0);
+		}
 		constexpr size_t word_size_factor = sizeof(WordType) / sizeof(OtherWordType);
 		if constexpr (N >= M) {
 			for (size_t i = 0; i < other.num_words; ++i) {
@@ -399,6 +400,9 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 			for (size_t i = 0; i < other.num_words; ++i) {
 				m_words[i] = other.m_words[i];
 			}
+			for (size_t i = other.num_words; i < num_words; ++i) {
+				m_words[i] = static_cast<word_type>(0);
+			}
 		} else {
 			for (size_t i = 0; i < num_words; ++i) {
 				m_words[i] = other.m_words[i];
@@ -408,14 +412,19 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 	} else {
 		constexpr size_t word_size_factor = sizeof(OtherWordType) / sizeof(WordType);
 		if constexpr (N >= M) {
-			for (size_t i = 0; i < std::min(num_words, (other.num_words * word_size_factor)); ++i) {
-				m_words[i] |= static_cast<WordType>(
+			constexpr size_t num_set_words =
+			    std::min(num_words, (other.num_words * word_size_factor));
+			for (size_t i = 0; i < num_set_words; ++i) {
+				m_words[i] = static_cast<WordType>(
 				    other.m_words[i / word_size_factor] >>
 				    (i % word_size_factor) * num_bits_per_word);
 			}
+			for (size_t i = num_set_words; i < num_words; ++i) {
+				m_words[i] = static_cast<word_type>(0);
+			}
 		} else {
 			for (size_t i = 0; i < num_words; ++i) {
-				m_words[i] |= static_cast<WordType>(
+				m_words[i] = static_cast<WordType>(
 				    other.m_words[i / word_size_factor] >>
 				    (i % word_size_factor) * num_bits_per_word);
 			}
