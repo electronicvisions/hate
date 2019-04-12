@@ -70,27 +70,29 @@ struct to_false_type : std::false_type
 {};
 
 template<typename... Ts>
-struct is_in : std::false_type
+struct is_in_type_list : std::false_type
 {};
 
 template<typename T, typename U, typename... Us>
-struct is_in<T, U, Us...> {
-	static constexpr const bool value = std::is_same<T, U>::value || is_in<T, Us...>::value;
+struct is_in_type_list<T, U, Us...>
+{
+	static constexpr const bool value =
+	    std::is_same<T, U>::value || is_in_type_list<T, Us...>::value;
 };
 
 /**
  * @brief Check if type is in type_list.
  */
 template<typename T, typename... Us>
-struct is_in<T, type_list<Us...>>
+struct is_in_type_list<T, type_list<Us...>>
 {
-	static constexpr bool value = detail::is_in<T, Us...>::value;
+	static constexpr bool value = detail::is_in_type_list<T, Us...>::value;
 };
 
 } // namespace detail
 
-template <typename... Ts>
-using is_in = detail::is_in<Ts...>;
+template<typename... Ts>
+using is_in_type_list = detail::is_in_type_list<Ts...>;
 
 /**
  * @brief Concatenation of N type_list types into a single type_list.
@@ -112,7 +114,7 @@ struct index_type_list_by_type {
 template<typename T, typename... Ts>
 struct index_type_list_by_type<T, type_list<T, Ts...>> {
 	static constexpr size_t value = 0;
-	static_assert((!detail::is_in<T, Ts...>::value), "Duplicate type in type_list");
+	static_assert((!detail::is_in_type_list<T, Ts...>::value), "Duplicate type in type_list");
 };
 
 template<typename T, typename U, typename... Ts>
