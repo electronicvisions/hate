@@ -36,5 +36,15 @@ constexpr size_t round_up_to_multiple(size_t number, size_t multiple)
 	return round_up_integer_division(number, multiple) * multiple;
 }
 
+/**
+ * Calculate the power of an integer value.
+ * @param base Base value
+ * @param exp Exponent value
+ */
+constexpr size_t pow(size_t base, size_t exp)
+{
+	return (exp != 0) ? (base * pow(base, exp - 1)) : 1;
+}
+
 } // namespace math
 } // namespace hate

@@ -31,3 +31,15 @@ TEST(round_up_to_multiple, General)
 	// compile-test
 	__attribute__((unused)) constexpr size_t res = round_up_to_multiple(10, 7);
 }
+
+TEST(pow, General)
+{
+	using namespace hate::math;
+	EXPECT_EQ(pow(7, 7), 823543);
+	EXPECT_EQ(pow(1, 42), 1);
+	EXPECT_EQ(pow(2, 1), 2);
+	EXPECT_EQ(pow(2, 0), 1);
+
+	// compile-test
+	__attribute__((unused)) constexpr size_t res = pow(10, 7);
+}
