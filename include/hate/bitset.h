@@ -7,8 +7,6 @@
 #include <sstream>
 #include <stddef.h>
 
-#include <cereal/cereal.hpp>
-
 namespace hate {
 
 namespace detail {
@@ -344,11 +342,6 @@ private:
 
 	template <size_t M, class OtherWordType>
 	friend class bitset;
-
-	friend class cereal::access;
-
-	template <class Archive>
-	void CEREAL_SERIALIZE_FUNCTION_NAME(Archive& ar);
 
 	std::array<word_type, num_words> m_words;
 };
@@ -830,13 +823,6 @@ constexpr void bitset<N, WordType>::sanitize()
 	if constexpr (N > 0) {
 		m_words.back() &= highest_word_bitmask();
 	}
-}
-
-template <size_t N, class WordType>
-template <class Archive>
-void bitset<N, WordType>::CEREAL_SERIALIZE_FUNCTION_NAME(Archive& ar)
-{
-	ar(CEREAL_NVP(m_words));
 }
 
 template <size_t N, class WordType>

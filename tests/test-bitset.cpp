@@ -3,6 +3,7 @@
 
 #include "gtest/gtest.h"
 #include "hate/bitset.h"
+#include "hate/cerealization_bitset.h"
 
 TEST(fill_bits, General)
 {
