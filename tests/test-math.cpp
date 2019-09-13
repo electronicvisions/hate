@@ -1,6 +1,4 @@
-#include <bitset>
-
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "hate/math.h"
 
 TEST(NumBits, General) {
