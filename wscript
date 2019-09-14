@@ -20,7 +20,7 @@ def build(bld):
     # unit tests
     bld(
         features = 'cxx cxxprogram gtest',
-        source = bld.path.ant_glob('tests/*.cpp'),
+        source = bld.path.ant_glob('tests/**/*.cpp'),
         target='hate_tests',
         use = 'hate_inc',
     )
