@@ -1,9 +1,9 @@
 #include "hate/bitset.h"
-#include "hate/cerealization_bitset.h"
 #include "helper.h"
 #include "serialization_cases.h"
 #include <gtest/gtest.h>
 
+#include "cereal/types/hate/bitset.h"
 #include <cereal/archives/json.hpp>
 #include <cereal/archives/portable_binary.hpp>
 
