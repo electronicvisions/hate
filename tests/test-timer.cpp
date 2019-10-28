@@ -4,6 +4,35 @@
 
 #include "hate/timer.h"
 
+TEST(PrintDuration, General)
+{
+	{
+		std::chrono::seconds dur(12345);
+		EXPECT_EQ(hate::to_string(dur), "1.23e+04 s");
+	}
+	{
+		std::chrono::milliseconds dur(123);
+		EXPECT_EQ(hate::to_string(dur), "123 ms");
+	}
+	{
+		std::chrono::milliseconds dur(1234);
+		EXPECT_EQ(hate::to_string(dur), "1.23 s");
+	}
+	{
+		std::chrono::microseconds dur(1236);
+		EXPECT_EQ(hate::to_string(dur), "1.24 ms");
+	}
+	{
+		std::chrono::microseconds dur(126);
+		EXPECT_EQ(hate::to_string(dur), "126 us");
+	}
+	{
+		std::chrono::nanoseconds dur(12);
+		EXPECT_EQ(hate::to_string(dur), "12 ns");
+		EXPECT_EQ(hate::to_string<2>(dur), "12 ns");
+	}
+}
+
 TEST(Timer, General)
 {
 	hate::Timer t;
