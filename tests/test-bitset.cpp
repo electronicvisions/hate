@@ -416,125 +416,49 @@ TYPED_TEST(CommonSubwordTypeTests, Assignment)
 	EXPECT_EQ(obj_assigned.to_string(), obj.to_string());
 }
 
-TYPED_TEST(CommonSubwordTypeTests, OperatorOr)
-{
-	{
-		// test for lhs.size == rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs | rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) |
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
+#define OPERATOR_BINARY(Op, Name)                                                                  \
+	TYPED_TEST(CommonSubwordTypeTests, Operator##Name)                                             \
+	{                                                                                              \
+		{                                                                                          \
+			TypeParam const lhs(                                                                   \
+			    random_array<typename TypeParam::word_type, TypeParam::num_words>());              \
+			hate::bitset<TypeParam::size, typename TypeParam::word_type> const rhs(                \
+			    random_array<typename TypeParam::word_type, TypeParam::num_words>());              \
+			TypeParam const res = lhs Op rhs;                                                      \
+			std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string())              \
+			                                Op std::bitset<TypeParam::size>(rhs.to_string()))      \
+			                               .to_string();                                           \
+			EXPECT_EQ(res.to_string(), expect);                                                    \
+		}                                                                                          \
+		{                                                                                          \
+			TypeParam const lhs(                                                                   \
+			    random_array<typename TypeParam::word_type, TypeParam::num_words>());              \
+			hate::bitset<TypeParam::size - 1, typename TypeParam::word_type> const rhs(            \
+			    random_array<typename TypeParam::word_type, TypeParam::num_words>());              \
+			TypeParam const res = lhs Op rhs;                                                      \
+			std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string())              \
+			                                Op std::bitset<TypeParam::size>(rhs.to_string()))      \
+			                               .to_string();                                           \
+			EXPECT_EQ(res.to_string(), expect);                                                    \
+		}                                                                                          \
+		{                                                                                          \
+			TypeParam const lhs(                                                                   \
+			    random_array<typename TypeParam::word_type, TypeParam::num_words>());              \
+			hate::bitset<0, typename TypeParam::word_type> const rhs(                              \
+			    random_array<typename TypeParam::word_type, 0>());                                 \
+			TypeParam const res = lhs Op rhs;                                                      \
+			std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string())              \
+			                                Op std::bitset<TypeParam::size>(rhs.to_string()))      \
+			                               .to_string();                                           \
+			EXPECT_EQ(res.to_string(), expect);                                                    \
+		}                                                                                          \
 	}
-	{
-		// test for lhs.size > rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size - 1, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs | rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) |
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-	{
-		// test for rhs.size == 0
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<0, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, 0>());
-		TypeParam const res = lhs | rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) |
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-}
 
-TYPED_TEST(CommonSubwordTypeTests, OperatorAnd)
-{
-	{
-		// test for lhs.size == rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs & rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) &
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-	{
-		// test for lhs.size > rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size - 1, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs & rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) &
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-	{
-		// test for rhs.size == 0
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<0, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, 0>());
-		TypeParam const res = lhs & rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) &
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-}
+OPERATOR_BINARY(|, Or)
+OPERATOR_BINARY(&, And)
+OPERATOR_BINARY(^, Xor)
 
-TYPED_TEST(CommonSubwordTypeTests, OperatorXor)
-{
-	{
-		// test for lhs.size == rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs ^ rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) ^
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-	{
-		// test for lhs.size > rhs.size
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<TypeParam::size - 1, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		TypeParam const res = lhs ^ rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) ^
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-	{
-		// test for rhs.size == 0
-		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-		hate::bitset<0, typename TypeParam::word_type> const rhs(
-		    random_array<typename TypeParam::word_type, 0>());
-		TypeParam const res = lhs ^ rhs;
-		// expect same behavior as std::bitset
-		std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) ^
-		                            std::bitset<TypeParam::size>(rhs.to_string()))
-		                               .to_string();
-		EXPECT_EQ(res.to_string(), expect);
-	}
-}
+#undef OPERATOR_BINARY
 
 size_t random_integer(size_t min, size_t max)
 {
@@ -544,25 +468,21 @@ size_t random_integer(size_t min, size_t max)
 	return random(gen);
 }
 
-TYPED_TEST(CommonSubwordTypeTests, OperatorLeftShift)
-{
-	size_t const shift = random_integer(0, TypeParam::size);
-	TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-	TypeParam const res = lhs << shift;
-	// expect same behavior as std::bitset
-	std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) << shift).to_string();
-	EXPECT_EQ(res.to_string(), expect);
-}
+#define OPERATOR_SHIFT(Op, Name)                                                                   \
+	TYPED_TEST(CommonSubwordTypeTests, Operator##Name)                                             \
+	{                                                                                              \
+		size_t const shift = random_integer(0, TypeParam::size);                                   \
+		TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());  \
+		TypeParam const res = lhs Op shift;                                                        \
+		std::string const expect =                                                                 \
+		    (std::bitset<TypeParam::size>(lhs.to_string()) Op shift).to_string();                  \
+		EXPECT_EQ(res.to_string(), expect);                                                        \
+	}
 
-TYPED_TEST(CommonSubwordTypeTests, OperatorRightShift)
-{
-	size_t const shift = random_integer(0, TypeParam::size);
-	TypeParam const lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-	TypeParam const res = lhs >> shift;
-	// expect same behavior as std::bitset
-	std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()) >> shift).to_string();
-	EXPECT_EQ(res.to_string(), expect);
-}
+OPERATOR_SHIFT(<<, LeftShift)
+OPERATOR_SHIFT(>>, RightShift)
+
+#undef OPERATOR_SHIFT
 
 TYPED_TEST(CommonSubwordTypeTests, LeftShiftWords)
 {
@@ -590,14 +510,22 @@ TYPED_TEST(CommonSubwordTypeTests, RightShiftWords)
 	EXPECT_EQ(res.to_string(), expect);
 }
 
-TYPED_TEST(CommonSubwordTypeTests, SetComplete)
+#define TEST_BITSET_MUTATING_COMPLETE(Func)                                                        \
+	{                                                                                              \
+		TypeParam lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());        \
+		std::string const expect =                                                                 \
+		    (std::bitset<TypeParam::size>(lhs.to_string()).Func()).to_string();                    \
+		EXPECT_EQ(lhs.Func().to_string(), expect);                                                 \
+	}
+
+TYPED_TEST(CommonSubwordTypeTests, SetResetFlip)
 {
-	// test bitset.set() sets all bits to true
-	TypeParam lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-	// expect same behavior as std::bitset
-	std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()).set()).to_string();
-	EXPECT_EQ(lhs.set().to_string(), expect);
+	TEST_BITSET_MUTATING_COMPLETE(set)
+	TEST_BITSET_MUTATING_COMPLETE(reset)
+	TEST_BITSET_MUTATING_COMPLETE(flip)
 }
+
+#undef TEST_BITSET_MUTATING_COMPLETE
 
 TYPED_TEST(CommonSubwordTypeTests, Set)
 {
@@ -610,15 +538,6 @@ TYPED_TEST(CommonSubwordTypeTests, Set)
 	EXPECT_EQ(lhs.set(bit, true).to_string(), expect);
 }
 
-TYPED_TEST(CommonSubwordTypeTests, ResetComplete)
-{
-	// test reset sets all bits to false
-	TypeParam lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-	// expect same behavior as std::bitset
-	std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()).reset()).to_string();
-	EXPECT_EQ(lhs.reset().to_string(), expect);
-}
-
 TYPED_TEST(CommonSubwordTypeTests, Reset)
 {
 	// test resetting single bit to false
@@ -628,15 +547,6 @@ TYPED_TEST(CommonSubwordTypeTests, Reset)
 	std::string const expect =
 	    (std::bitset<TypeParam::size>(lhs.to_string()).reset(bit)).to_string();
 	EXPECT_EQ(lhs.reset(bit).to_string(), expect);
-}
-
-TYPED_TEST(CommonSubwordTypeTests, FlipComplete)
-{
-	// test bitset.flip() flips the value of all bits.
-	TypeParam lhs(random_array<typename TypeParam::word_type, TypeParam::num_words>());
-	// expect same behavior as std::bitset
-	std::string const expect = (std::bitset<TypeParam::size>(lhs.to_string()).flip()).to_string();
-	EXPECT_EQ(lhs.flip().to_string(), expect);
 }
 
 TYPED_TEST(CommonSubwordTypeTests, Flip)
