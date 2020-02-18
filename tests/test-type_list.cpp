@@ -59,3 +59,28 @@ TEST(TypeList, build_alphabets) {
 	EXPECT_TRUE((is_in_type_list<a, a_types>::value));
 	EXPECT_FALSE((is_in_type_list<d, a_types>::value));
 }
+
+namespace {
+
+template <typename T>
+struct FilterForA
+{
+	constexpr static bool value = !std::is_same<T, a>::value;
+};
+
+}
+
+TEST(TypeList, filter_type_list)
+{
+	typedef hate::type_list<a, b, c> types_a;
+	typedef hate::filter_type_list_t<FilterForA, types_a> filtered_types_a;
+	EXPECT_EQ(typeid(hate::type_list<b, c>), typeid(filtered_types_a));
+
+	typedef hate::type_list<b, c, a> types_b;
+	typedef hate::filter_type_list_t<FilterForA, types_b> filtered_types_b;
+	EXPECT_EQ(typeid(hate::type_list<b, c>), typeid(filtered_types_b));
+
+	typedef hate::type_list<a> types_c;
+	typedef hate::filter_type_list_t<FilterForA, types_c> filtered_types_c;
+	EXPECT_EQ(typeid(hate::type_list<>), typeid(filtered_types_c));
+}

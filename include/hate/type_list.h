@@ -154,4 +154,34 @@ struct type_list_size<type_list<Ts...>> {
 	static constexpr size_t value = sizeof...(Ts);
 };
 
+/**
+ * Apply given filter to type_list.
+ * @tparam Filter Filter generating boolean value for each type in type_list
+ * @tparam TL type_list to filter
+ */
+template <template <typename> typename Filter, typename TL>
+struct filter_type_list;
+
+template <template <typename> typename Filter, typename T, typename... Ts>
+struct filter_type_list<Filter, hate::type_list<T, Ts...>>
+{
+	typedef std::conditional_t<
+	    Filter<T>::value,
+	    hate::multi_concat_t<
+	        hate::type_list<T>,
+	        typename filter_type_list<Filter, hate::type_list<Ts...>>::type>,
+	    typename filter_type_list<Filter, hate::type_list<Ts...>>::type>
+	    type;
+};
+
+template <template <typename> typename Filter>
+struct filter_type_list<Filter, hate::type_list<>>
+{
+	typedef hate::type_list<> type;
+};
+
+template <template <typename> typename Filter, typename TL>
+using filter_type_list_t = typename filter_type_list<Filter, TL>::type;
+
+
 } // namespace hate
