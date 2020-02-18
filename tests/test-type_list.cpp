@@ -84,3 +84,11 @@ TEST(TypeList, filter_type_list)
 	typedef hate::filter_type_list_t<FilterForA, types_c> filtered_types_c;
 	EXPECT_EQ(typeid(hate::type_list<>), typeid(filtered_types_c));
 }
+
+TEST(TypeList, intersection)
+{
+	typedef hate::type_list<a, b, c> types_a;
+	typedef hate::type_list<b, c, d, e, f> types_b;
+	typedef hate::type_list_intersection_t<types_a, types_b> intersection;
+	EXPECT_EQ(typeid(hate::type_list<b, c>), typeid(intersection));
+}

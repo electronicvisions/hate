@@ -183,5 +183,21 @@ struct filter_type_list<Filter, hate::type_list<>>
 template <template <typename> typename Filter, typename TL>
 using filter_type_list_t = typename filter_type_list<Filter, TL>::type;
 
+/**
+ * Apply type intersection to type_list pair.
+ * @tparam TL1 first type_list
+ * @tparam TL2 second type_list
+ */
+template <typename TL1, typename TL2>
+struct type_list_intersection
+{
+	template <typename T>
+	using filter = is_in_type_list<T, TL2>;
+
+	typedef filter_type_list_t<filter, TL1> type;
+};
+
+template <typename TL1, typename TL2>
+using type_list_intersection_t = typename type_list_intersection<TL1, TL2>::type;
 
 } // namespace hate
