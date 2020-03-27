@@ -6,11 +6,16 @@
 namespace cereal {
 
 template <typename Archive, size_t N, typename WordType>
-void CEREAL_SERIALIZE_FUNCTION_NAME(Archive& ar, hate::bitset<N, WordType>& bitset)
+std::enable_if_t<N != 0> CEREAL_SERIALIZE_FUNCTION_NAME(
+    Archive& ar, hate::bitset<N, WordType>& bitset)
 {
 	auto bitset_words = bitset.to_array();
 	ar(CEREAL_NVP(bitset_words));
 	bitset = hate::bitset<N, WordType>(bitset_words);
 }
+
+template <typename Archive, size_t N, typename WordType>
+std::enable_if_t<N == 0> CEREAL_SERIALIZE_FUNCTION_NAME(Archive&, hate::bitset<N, WordType>&)
+{}
 
 } // namespace cereal
