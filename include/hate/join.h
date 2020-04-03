@@ -9,9 +9,9 @@ namespace hate {
  * @tparam OstreamT Sink providing ostream-operator interface
  * @tparam IterableT Type of iterable
  * @tparam DelimiterT Type of delimiter
- * @param os OstremT instance to be modified
+ * @param os OstreamT instance to be modified
  * @param iterable Iterable to join
- * @param delimiter Delimiter to intert between iterable elements
+ * @param delimiter Delimiter to insert between iterable elements
  */
 template <typename OstreamT, typename IterableT, typename DelimiterT>
 void join(OstreamT& os, IterableT const& iterable, DelimiterT const& delimiter)

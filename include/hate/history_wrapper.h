@@ -6,10 +6,10 @@
 namespace hate {
 
 /**
- * Wrapper for storage, access and alteration-tracking to an object with explicitely saved history.
+ * Wrapper for storage, access and alteration-tracking to an object with explicitly saved history.
  * Aside the current object, (configurable many) snapshot instances are saved and can be accessed.
  * Read-only access to the current instance adheres to a pointer interface, write-access is explicit
- * in order to track occurence of write accesses.
+ * in order to track occurrence of write accesses.
  */
 template <typename T, size_t Depth = 1>
 class HistoryWrapper
@@ -56,7 +56,7 @@ public:
 	/**
 	 * Check whether history entry at specified position exists.
 	 * A larger index corresponds to older value.
-	 * @param index Index of history to query existance for
+	 * @param index Index of history to query existence for
 	 */
 	bool has_history(size_t const index = 0) const
 	{

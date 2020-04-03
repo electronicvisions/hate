@@ -19,7 +19,7 @@ namespace hate {
  * @tparam Period Period specifier of duration
  * @param value Duration value to print
  */
-template <size_t Precision = 3, typename Rep, typename Period>
+template <int Precision = 3, typename Rep, typename Period>
 std::string to_string(std::chrono::duration<Rep, Period> const& value)
 {
 	// convert to nanoseconds
@@ -55,28 +55,28 @@ public:
 		: m_start(std::chrono::duration_cast<std::chrono::nanoseconds>(
 			  std::chrono::steady_clock::now().time_since_epoch())){};
 
-	size_t get_s() const
+	long get_s() const
 	{
 		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
 			std::chrono::steady_clock::now().time_since_epoch());
 		return std::chrono::duration_cast<std::chrono::seconds>(t - m_start).count();
 	};
 
-	size_t get_ms() const
+	long get_ms() const
 	{
 		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
 			std::chrono::steady_clock::now().time_since_epoch());
 		return std::chrono::duration_cast<std::chrono::milliseconds>(t - m_start).count();
 	};
 
-	size_t get_us() const
+	long get_us() const
 	{
 		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
 			std::chrono::steady_clock::now().time_since_epoch());
 		return std::chrono::duration_cast<std::chrono::microseconds>(t - m_start).count();
 	};
 
-	size_t get_ns() const
+	long get_ns() const
 	{
 		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
 			std::chrono::steady_clock::now().time_since_epoch());

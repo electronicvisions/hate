@@ -3,9 +3,9 @@
 #include <array>
 #include <cassert>
 #include <climits>
+#include <cstddef>
 #include <ostream>
 #include <sstream>
-#include <stddef.h>
 
 namespace hate {
 
@@ -39,10 +39,10 @@ constexpr T fill_bits(size_t max_index)
 
 
 /**
- * Constant-size bitset. The bitset is accesible as array of unsigned integer words with
+ * Constant-size bitset. The bitset is accessible as array of unsigned integer words with
  * configurable word-size. Logical operations are implemented for smaller-equal sized right-hand
- * side bitsets. All logical operations are constexpr evaluatable. The interface of std::bitset is
- * to be mimiced for equal-sized operations as well as conversion to std::string and unsigned
+ * side bitsets. All logical operations are constexpr evaluable. The interface of std::bitset is
+ * to be mimicked for equal-sized operations as well as conversion to std::string and unsigned
  * integer.
  * @tparam N Number of bits
  * @tparam WordType Type of underlying word storage
@@ -79,7 +79,7 @@ public:
 
 	/**
 	 * Construct bitset from possibly differently sized bitset.
-	 * Unpresent bits in the other bitset will be set to false (M < N), bits not present in this
+	 * Not present bits in the other bitset will be set to false (M < N), bits not present in this
 	 * instance are ignored (M > N).
 	 * @tparam M Size of bitset to construct instance from
 	 * @tparam OtherWordType Type of underlying array of other bitset
@@ -90,7 +90,7 @@ public:
 
 	/**
 	 * Assign bitset from possibly differently sized bitset.
-	 * Unpresent bits in the other bitset will be set to false (M < N), bits not present in this
+	 * Not present bits in the other bitset will be set to false (M < N), bits not present in this
 	 * instance are ignored (M > N).
 	 * @tparam M Size of bitset to assign to instance
 	 * @tparam OtherWordType Type of underlying array of other bitset
@@ -158,42 +158,42 @@ public:
 	 * @param shift Number of bits to shift right
 	 * @return (instance >>= shift)
 	 */
-	constexpr bitset& operator>>=(size_t const shift);
+	constexpr bitset& operator>>=(size_t shift);
 
 	/**
 	 * Perform <<= operation on bitset.
 	 * @param shift Number of bits to shift right
 	 * @return (instance <<= shift)
 	 */
-	constexpr bitset& operator<<=(size_t const shift);
+	constexpr bitset& operator<<=(size_t shift);
 
 	/**
 	 * Perform >> operation on bitset.
 	 * @param shift Number of bits to shift right
 	 * @return (instance >> shift)
 	 */
-	constexpr bitset operator>>(size_t const shift) const;
+	constexpr bitset operator>>(size_t shift) const;
 
 	/**
 	 * Perform << operation on bitset.
 	 * @param shift Number of bits to shift right
 	 * @return (instance << shift)
 	 */
-	constexpr bitset operator<<(size_t const shift) const;
+	constexpr bitset operator<<(size_t shift) const;
 
 	/**
 	 * Perform >>= operation on bitset for multiples of num_bits_per_word.
 	 * @param word_shift Number of words to shift
 	 * @return (instance >>= word_shift * num_bits_per_word)
 	 */
-	constexpr bitset& shift_words_right(size_t const word_shift);
+	constexpr bitset& shift_words_right(size_t word_shift);
 
 	/**
 	 * Perform <<= operation on bitset for multiples of num_bits_per_word.
 	 * @param word_shift Number of words to shift
 	 * @return (instance <<= word_shift * num_bits_per_word)
 	 */
-	constexpr bitset& shift_words_left(size_t const word_shift);
+	constexpr bitset& shift_words_left(size_t word_shift);
 
 	/**
 	 * Create new instance with flipped bits.
@@ -227,7 +227,7 @@ public:
 	 * @param value Boolean value to set bit to
 	 * @return Instance with bit set to value.
 	 */
-	constexpr bitset& set(size_t const index, bool const value = true);
+	constexpr bitset& set(size_t index, bool value = true);
 
 	/**
 	 * Set all bits of bitset to false.
@@ -240,7 +240,7 @@ public:
 	 * @param index Index of bit to set
 	 * @return Instance with bit set to false.
 	 */
-	constexpr bitset& reset(size_t const index);
+	constexpr bitset& reset(size_t index);
 
 	/**
 	 * Flip all bits.
@@ -253,14 +253,14 @@ public:
 	 * @param index Index of bit to flip
 	 * @return Instance with bit flipped.
 	 */
-	constexpr bitset& flip(size_t const index);
+	constexpr bitset& flip(size_t index);
 
 	/**
 	 * Get boolean value of bit.
 	 * @param Index of bit to get
 	 * @return Boolean value of bit
 	 */
-	constexpr bool test(size_t const index) const;
+	constexpr bool test(size_t index) const;
 
 	/**
 	 * Check if all bits are set to true.
@@ -710,7 +710,7 @@ constexpr bitset<N, WordType>& bitset<N, WordType>::set(size_t const index, bool
 
 		m_words[word_index] = (m_words[word_index] & (~mask)) | value_mask;
 	} else {
-		// supress unused but set parameter warning
+		// suppress unused but set parameter warning
 		static_cast<void>(value);
 	}
 	return *this;

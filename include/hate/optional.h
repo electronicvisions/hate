@@ -66,7 +66,7 @@ void CEREAL_SAVE_FUNCTION_NAME(Archive& ar, hate::optional<T> const& optional)
 template <class Archive, typename T> inline
 void CEREAL_LOAD_FUNCTION_NAME(Archive& ar, hate::optional<T>& optional)
 {
-	bool nullopt;
+	bool nullopt = false;
 	ar(CEREAL_NVP_("nullopt", nullopt));
 	if (nullopt) {
 		optional = hate::nullopt;
