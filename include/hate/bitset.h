@@ -318,7 +318,9 @@ public:
 	 * high bits are dropped.
 	 * @return Bitset value as unsigned integer
 	 */
-	template <class UIntegerType>
+	template <
+	    typename UIntegerType,
+	    typename = std::enable_if_t<std::is_unsigned<UIntegerType>::value>>
 	constexpr explicit operator UIntegerType() const;
 
 	/**
@@ -862,7 +864,7 @@ constexpr uintmax_t bitset<N, WordType>::to_uintmax() const
 }
 
 template <size_t N, class WordType>
-template <class UnsignedIntegerType>
+template <typename UnsignedIntegerType, typename>
 constexpr bitset<N, WordType>::operator UnsignedIntegerType() const
 {
 	bitset<sizeof(UnsignedIntegerType) * CHAR_BIT, UnsignedIntegerType> converter(*this);
