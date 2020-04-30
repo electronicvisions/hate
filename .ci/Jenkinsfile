@@ -1,9 +1,9 @@
 @Library("jenlib") _
 
 wafDefaultPipeline(projects: ["hate"],
-                   container: [app: "visionary-wafer"],
+                   container: [app: "wafer"],
                    notificationChannel: "#softies")
 
 wafDefaultPipeline(projects: ["hate"],
-                   container: [app: "visionary-dls"],
+                   container: [app: "dls-core"],
                    notificationChannel: "#softies")
