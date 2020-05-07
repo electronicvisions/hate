@@ -41,3 +41,14 @@ TEST(pow, General)
 	// compile-test
 	__attribute__((unused)) constexpr size_t res = pow(10, 7);
 }
+
+TEST(log2, General)
+{
+	using namespace hate::math;
+	EXPECT_EQ(log2(1), 0);
+	EXPECT_EQ(log2(7), 2);
+	EXPECT_EQ(log2(8), 3);
+
+	// compile-test
+	__attribute__((unused)) constexpr size_t res = log2(7);
+}

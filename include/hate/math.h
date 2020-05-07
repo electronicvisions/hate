@@ -46,5 +46,15 @@ constexpr size_t pow(size_t base, size_t exp)
 	return (exp != 0) ? (base * pow(base, exp - 1)) : 1;
 }
 
+
+/**
+ * Calculate the logarithm to the power of two of an integer value.
+ * @param value Value to calculate log2 for
+ */
+constexpr size_t log2(size_t value)
+{
+	return (value > 1) ? 1 + log2(value >> 1) : 0;
+}
+
 } // namespace math
 } // namespace hate
