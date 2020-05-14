@@ -12,12 +12,14 @@ template <typename T, typename Tuple>
 std::unique_ptr<T> make_unique_from_tuple(Tuple&& t);
 
 namespace detail {
+
 template <typename T, typename Tuple, size_t... I>
 std::unique_ptr<T> make_unique_from_tuple_impl(Tuple&& t, std::index_sequence<I...>)
 {
 	return std::make_unique<T>(std::get<I>(std::forward<Tuple>(t))...);
 }
-}
+
+} // namespace detail
 
 template <typename T, typename Tuple>
 std::unique_ptr<T> make_unique_from_tuple(Tuple&& t)
@@ -26,5 +28,27 @@ std::unique_ptr<T> make_unique_from_tuple(Tuple&& t)
 	    std::forward<Tuple>(t),
 	    std::make_index_sequence<std::tuple_size_v<std::remove_reference_t<Tuple>>>{});
 }
+
+template <typename T, typename Tuple>
+std::shared_ptr<T> make_shared_from_tuple(Tuple&& t);
+
+namespace detail {
+
+template <typename T, typename Tuple, size_t... I>
+std::shared_ptr<T> make_shared_from_tuple_impl(Tuple&& t, std::index_sequence<I...>)
+{
+	return std::make_shared<T>(std::get<I>(std::forward<Tuple>(t))...);
 }
+
+} // namespace detail
+
+template <typename T, typename Tuple>
+std::shared_ptr<T> make_shared_from_tuple(Tuple&& t)
+{
+	return detail::make_shared_from_tuple_impl<T>(
+	    std::forward<Tuple>(t),
+	    std::make_index_sequence<std::tuple_size_v<std::remove_reference_t<Tuple>>>{});
 }
+
+} // namespace memory
+} // namespace hate
