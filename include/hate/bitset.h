@@ -338,8 +338,16 @@ public:
 	constexpr unsigned long long to_ullong() const;
 
 private:
-	constexpr word_type highest_word_bitmask() const;
+	/**
+	 * Generate bitmask of the used bits in the highest word.
+	 * @return Bitmask
+	 */
+	constexpr static word_type highest_word_bitmask();
 
+	/**
+	 * Sanitize the highest word to the possibly not full number of bits.
+	 * All bits at positions >= size % num_bits_per_word in the highest word are set to zero.
+	 */
 	constexpr void sanitize();
 
 	template <size_t M, class OtherWordType>
@@ -784,7 +792,7 @@ constexpr bool bitset<N, WordType>::operator!=(bitset const& other) const
 }
 
 template <size_t N, class WordType>
-constexpr WordType bitset<N, WordType>::highest_word_bitmask() const
+constexpr WordType bitset<N, WordType>::highest_word_bitmask()
 {
 	return fill_bits<word_type>(N - ((num_words - 1) * num_bits_per_word));
 }
@@ -824,7 +832,7 @@ constexpr bool bitset<N, WordType>::any() const
 template <size_t N, class WordType>
 constexpr void bitset<N, WordType>::sanitize()
 {
-	if constexpr (N > 0) {
+	if constexpr ((N > 0) && (N % num_bits_per_word != 0)) {
 		m_words.back() &= highest_word_bitmask();
 	}
 }
