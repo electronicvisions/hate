@@ -16,9 +16,9 @@ namespace hate {
 template <typename OstreamT, typename IterableT, typename DelimiterT>
 void join(OstreamT& os, IterableT const& iterable, DelimiterT const& delimiter)
 {
-	for (auto it = iterable.cbegin(); it != iterable.cend(); ++it) {
+	for (auto it = iterable.begin(); it != iterable.end(); ++it) {
 		os << *it;
-		if (it != iterable.cend() - 1) {
+		if (it != iterable.end() - 1) {
 			os << delimiter;
 		}
 	}
