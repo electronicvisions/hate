@@ -119,4 +119,32 @@ using is_detected_convertible = std::is_convertible<detected_t<Op, Args...>, To>
 template <class To, template<class...> class Op, class... Args>
 constexpr bool is_detected_convertible_v = is_detected_convertible<To, Op, Args...>::value;
 
+
+/**
+ * Check if a type adheres to the Container concept.
+ * @tparam T Type to check
+ */
+template <typename T, typename = void>
+struct is_container : std::false_type
+{};
+
+template <typename T>
+struct is_container<
+    T,
+    std::void_t<
+        typename T::value_type,
+        typename T::size_type,
+        typename T::allocator_type,
+        typename T::iterator,
+        typename T::const_iterator,
+        decltype(std::declval<T>().size()),
+        decltype(std::declval<T>().begin()),
+        decltype(std::declval<T>().end()),
+        decltype(std::declval<T>().cbegin()),
+        decltype(std::declval<T>().cend())>> : public std::true_type
+{};
+
+template <typename T>
+constexpr static bool is_container_v = is_container<T>::value;
+
 } // namespace hate
