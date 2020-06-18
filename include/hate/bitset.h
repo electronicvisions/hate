@@ -385,19 +385,21 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 	        0,
 	    "Word types must have a common divisor");
 
+	constexpr size_t other_num_words = bitset<M, OtherWordType>::num_words;
+
 	if constexpr (sizeof(WordType) > sizeof(OtherWordType)) {
 		for (auto& word : m_words) {
 			word = static_cast<word_type>(0);
 		}
 		constexpr size_t word_size_factor = sizeof(WordType) / sizeof(OtherWordType);
 		if constexpr (N >= M) {
-			for (size_t i = 0; i < other.num_words; ++i) {
+			for (size_t i = 0; i < other_num_words; ++i) {
 				m_words[i / word_size_factor] |=
 				    (static_cast<WordType>(other.m_words[i])
 				     << (other.num_bits_per_word * (i % word_size_factor)));
 			}
 		} else {
-			for (size_t i = 0; i < std::min(other.num_words, word_size_factor * num_words); ++i) {
+			for (size_t i = 0; i < std::min(other_num_words, word_size_factor * num_words); ++i) {
 				m_words[i / word_size_factor] |=
 				    (static_cast<WordType>(other.m_words[i])
 				     << (other.num_bits_per_word * (i % word_size_factor)));
@@ -406,10 +408,10 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 		}
 	} else if constexpr (sizeof(WordType) == sizeof(OtherWordType)) {
 		if constexpr (N >= M) {
-			for (size_t i = 0; i < other.num_words; ++i) {
+			for (size_t i = 0; i < other_num_words; ++i) {
 				m_words[i] = other.m_words[i];
 			}
-			for (size_t i = other.num_words; i < num_words; ++i) {
+			for (size_t i = other_num_words; i < num_words; ++i) {
 				m_words[i] = static_cast<word_type>(0);
 			}
 		} else {
@@ -422,7 +424,7 @@ constexpr bitset<N, WordType>::bitset(bitset<M, OtherWordType> const& other) : m
 		constexpr size_t word_size_factor = sizeof(OtherWordType) / sizeof(WordType);
 		if constexpr (N >= M) {
 			constexpr size_t num_set_words =
-			    std::min(num_words, (other.num_words * word_size_factor));
+			    std::min(num_words, (other_num_words * word_size_factor));
 			for (size_t i = 0; i < num_set_words; ++i) {
 				m_words[i] = static_cast<WordType>(
 				    other.m_words[i / word_size_factor] >>
