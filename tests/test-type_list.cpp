@@ -92,3 +92,16 @@ TEST(TypeList, intersection)
 	typedef hate::type_list_intersection_t<types_a, types_b> intersection;
 	EXPECT_EQ(typeid(hate::type_list<b, c>), typeid(intersection));
 }
+
+TEST(TypeList, unique)
+{
+	typedef hate::type_list<a, b, c> types_a;
+	typedef hate::type_list<a, b, c, c, b, a, f> types_b;
+	typedef hate::type_list<> types_c;
+	typedef hate::type_list_unique_t<types_a> unique_a;
+	typedef hate::type_list_unique_t<types_b> unique_b;
+	typedef hate::type_list_unique_t<types_c> unique_c;
+	EXPECT_EQ(typeid(types_a), typeid(unique_a));
+	EXPECT_EQ(typeid(hate::type_list<c, b, a, f>), typeid(unique_b));
+	EXPECT_EQ(typeid(hate::type_list<>), typeid(unique_c));
+}

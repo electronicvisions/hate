@@ -200,4 +200,48 @@ struct type_list_intersection
 template <typename TL1, typename TL2>
 using type_list_intersection_t = typename type_list_intersection<TL1, TL2>::type;
 
+namespace detail {
+
+template <typename T, typename... Ts>
+struct type_list_make_unique
+{
+	typedef hate::multi_concat_t<
+	    std::conditional_t<
+	        hate::is_in_type_list<T, hate::type_list<Ts...>>::value,
+	        hate::type_list<>,
+	        hate::type_list<T>>,
+	    typename type_list_make_unique<Ts...>::type>
+	    type;
+};
+
+template <typename T>
+struct type_list_make_unique<T>
+{
+	typedef hate::type_list<T> type;
+};
+
+} // namespace detail
+
+/**
+ * Reduce type list to unique types.
+ * @param TL Type list to reduce
+ */
+template <typename TL>
+struct type_list_unique;
+
+template <typename... Ts>
+struct type_list_unique<hate::type_list<Ts...>>
+{
+	typedef typename detail::type_list_make_unique<Ts...>::type type;
+};
+
+template <>
+struct type_list_unique<hate::type_list<>>
+{
+	typedef typename hate::type_list<> type;
+};
+
+template <typename TL>
+using type_list_unique_t = typename type_list_unique<TL>::type;
+
 } // namespace hate
