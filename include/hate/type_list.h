@@ -17,6 +17,44 @@ template <typename... Ts>
 struct type_list
 {};
 
+
+/**
+ * @brief convert other types to typelist.
+ */
+template <typename FromT>
+struct type_list_from
+{
+	static_assert(sizeof(FromT) == 0, "Conversion for type not supported.");
+};
+
+template <typename... Ts>
+using type_list_from_t = typename type_list_from<Ts...>::type;
+
+template <template <typename...> class FromT, typename... Ts>
+struct type_list_from<FromT<Ts...>>
+{
+	using type = type_list<Ts...>;
+};
+
+/**
+ * @brief convert type_list to any variadic data-type
+ */
+template <template <typename...> class, typename TL>
+struct type_list_to
+{
+	static_assert(sizeof(TL) == 0, "Conversion only supported for type lists.");
+};
+
+template <template <typename...> class TargetT, typename TL>
+using type_list_to_t = typename type_list_to<TargetT, TL>::type;
+
+template <template <typename...> class TargetT, typename... Ts>
+struct type_list_to<TargetT, type_list<Ts...>>
+{
+	using type = TargetT<Ts...>;
+};
+
+
 /**
  * @brief The corresponding type_list trait.
  */

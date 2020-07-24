@@ -1,4 +1,5 @@
 #include <bitset>
+#include <variant>
 
 #include "gtest/gtest.h"
 #include "hate/type_list.h"
@@ -16,8 +17,13 @@ struct k { uint8_t data; uint16_t data2; };
 using i = std::bitset<7>;
 using j = std::bitset<3>;
 
+using variant_1 = std::variant<a, b, c, d, e>;
+using variant_2 = std::variant<f, g, h, k, i, j>;
+using variant_concat_expect = std::variant<a, b, c, d, e, f, g, h, k, i, j>;
 
-TEST(TypeList, build_alphabets) {
+
+TEST(TypeList, build_alphabets)
+{
 	using namespace hate;
 	using a_types = type_list<a, b, c>;
 	using b_types = type_list<d, e>;
@@ -104,4 +110,15 @@ TEST(TypeList, unique)
 	EXPECT_EQ(typeid(types_a), typeid(unique_a));
 	EXPECT_EQ(typeid(hate::type_list<c, b, a, f>), typeid(unique_b));
 	EXPECT_EQ(typeid(hate::type_list<>), typeid(unique_c));
+}
+
+TEST(TypeList, convert_from_to_variant)
+{
+	using type_list_1 = hate::type_list_from_t<variant_1>;
+	using type_list_2 = hate::type_list_from_t<variant_2>;
+
+	using type_list_concat = hate::concat_t<type_list_1, type_list_2>;
+	using variant_concat = hate::type_list_to_t<std::variant, type_list_concat>;
+
+	EXPECT_EQ(typeid(variant_concat), typeid(variant_concat_expect));
 }
