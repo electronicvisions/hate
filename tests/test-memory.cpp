@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "hate/memory.h"
+#include <gtest/gtest.h>
 
 
 struct A

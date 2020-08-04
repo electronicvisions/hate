@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
 #include "hate/bitset.h"
 #include "hate/cerealization_bitset.h"
 #include "helper.h"
 #include "serialization_cases.h"
+#include <gtest/gtest.h>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>

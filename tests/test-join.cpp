@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "hate/join.h"
+#include <gtest/gtest.h>
 
 #include <array>
 #include <sstream>

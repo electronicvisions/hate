@@ -1,8 +1,8 @@
-#include <array>
-#include <gtest/gtest.h>
 #include "cases.h"
 #include "hate/bitset.h"
 #include "helper.h"
+#include <array>
+#include <gtest/gtest.h>
 
 TYPED_TEST(CommonSubwordTypeTests, ArrayConstructor)
 {

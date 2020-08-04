@@ -1,6 +1,6 @@
 #pragma once
-#include <gtest/gtest.h>
 #include "hate/bitset.h"
+#include <gtest/gtest.h>
 
 constexpr std::array<size_t, 12> sizes{0, 16, 17, 31, 32, 33, 63, 64, 65, 127, 128, 129};
 

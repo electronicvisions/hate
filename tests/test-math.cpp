@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "hate/math.h"
+#include <gtest/gtest.h>
 
 TEST(NumBits, General) {
 	using namespace hate::math;

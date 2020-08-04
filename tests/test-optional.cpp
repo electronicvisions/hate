@@ -1,6 +1,6 @@
-#include <boost/optional/optional.hpp>
-#include "gtest/gtest.h"
 #include "hate/optional.h"
+#include <boost/optional/optional.hpp>
+#include <gtest/gtest.h>
 
 // template to test comparison between variables of same base type
 template <typename T>

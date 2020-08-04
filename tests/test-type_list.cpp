@@ -1,8 +1,7 @@
+#include "hate/type_list.h"
 #include <bitset>
 #include <variant>
-
-#include "gtest/gtest.h"
-#include "hate/type_list.h"
+#include <gtest/gtest.h>
 
 
 struct a { static const int my_size = 1; };

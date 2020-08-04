@@ -1,8 +1,6 @@
-#include <thread>
-
-#include "gtest/gtest.h"
-
 #include "hate/timer.h"
+#include <thread>
+#include <gtest/gtest.h>
 
 TEST(PrintDuration, General)
 {

@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
 #include "cases.h"
 #include "hate/bitset.h"
 #include "helper.h"
+#include <gtest/gtest.h>
 
 TYPED_TEST(CommonSubwordTypeTests, BitsetConstructor)
 {

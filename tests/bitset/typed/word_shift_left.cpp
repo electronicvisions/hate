@@ -1,8 +1,8 @@
 #include <bitset>
 
-#include <gtest/gtest.h>
 #include "cases.h"
 #include "helper.h"
+#include <gtest/gtest.h>
 
 TYPED_TEST(CommonSubwordTypeTests, LeftShiftWords)
 {

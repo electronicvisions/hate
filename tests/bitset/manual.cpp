@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "hate/bitset.h"
+#include <gtest/gtest.h>
 
 TEST(fill_bits, General)
 {

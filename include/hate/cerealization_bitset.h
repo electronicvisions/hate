@@ -1,7 +1,7 @@
 #pragma once
+#include "hate/bitset.h"
 #include <cereal/cereal.hpp>
 #include <cereal/types/array.hpp>
-#include "hate/bitset.h"
 
 namespace cereal {
 

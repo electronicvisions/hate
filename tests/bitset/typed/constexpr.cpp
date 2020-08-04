@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "cases.h"
+#include <gtest/gtest.h>
 
 TYPED_TEST(CommonSubwordTypeTests, Constexpr)
 {

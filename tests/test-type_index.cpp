@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "hate/type_index.h"
+#include <gtest/gtest.h>
 
 struct SomeThing
 {};

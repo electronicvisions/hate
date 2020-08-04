@@ -1,7 +1,7 @@
-#include <bitset>
-#include <gtest/gtest.h>
 #include "cases.h"
 #include "helper.h"
+#include <bitset>
+#include <gtest/gtest.h>
 
 TYPED_TEST(CommonSubwordTypeTests, OperatorInvert)
 {

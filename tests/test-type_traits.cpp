@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 #include "hate/type_traits.h"
 
 typedef int base_type;
