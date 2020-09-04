@@ -53,7 +53,7 @@ template <class T>
 class CommonTypeTests : public ::testing::Test
 {};
 
-TYPED_TEST_CASE(CommonTypeTests, Types);
+TYPED_TEST_SUITE(CommonTypeTests, Types);
 
 TYPED_TEST(CommonTypeTests, Types)
 {

@@ -24,4 +24,4 @@ template <class T>
 class CommonSerializationTests : public ::testing::Test
 {};
 
-TYPED_TEST_CASE(CommonSerializationTests, Types);
+TYPED_TEST_SUITE(CommonSerializationTests, Types);

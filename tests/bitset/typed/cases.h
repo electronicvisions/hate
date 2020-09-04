@@ -24,4 +24,4 @@ template <class T>
 class CommonSubwordTypeTests : public ::testing::Test
 {};
 
-TYPED_TEST_CASE(CommonSubwordTypeTests, Types);
+TYPED_TEST_SUITE(CommonSubwordTypeTests, Types);
