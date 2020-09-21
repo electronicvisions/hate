@@ -6,6 +6,11 @@
 #include <sstream>
 #include <string>
 
+extern "C"
+{
+#include <sys/time.h>
+}
+
 namespace hate {
 
 /**
@@ -51,46 +56,58 @@ std::string to_string(std::chrono::duration<Rep, Period> const& value)
 class Timer
 {
 public:
-	Timer()
-		: m_start(std::chrono::duration_cast<std::chrono::nanoseconds>(
-			  std::chrono::steady_clock::now().time_since_epoch())){};
+	Timer();
 
-	long get_s() const
-	{
-		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
-			std::chrono::steady_clock::now().time_since_epoch());
-		return std::chrono::duration_cast<std::chrono::seconds>(t - m_start).count();
-	};
+	long get_s() const;
 
-	long get_ms() const
-	{
-		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
-			std::chrono::steady_clock::now().time_since_epoch());
-		return std::chrono::duration_cast<std::chrono::milliseconds>(t - m_start).count();
-	};
+	long get_ms() const;
 
-	long get_us() const
-	{
-		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
-			std::chrono::steady_clock::now().time_since_epoch());
-		return std::chrono::duration_cast<std::chrono::microseconds>(t - m_start).count();
-	};
+	long get_us() const;
 
-	long get_ns() const
-	{
-		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
-			std::chrono::steady_clock::now().time_since_epoch());
-		return std::chrono::duration_cast<std::chrono::nanoseconds>(t - m_start).count();
-	};
+	long get_ns() const;
 
-	std::string print() const
-	{
-		auto const t = std::chrono::duration_cast<std::chrono::nanoseconds>(
-		    std::chrono::steady_clock::now().time_since_epoch());
-		return to_string(t - m_start);
-	}
+	std::string print() const;
 
 private:
-	std::chrono::nanoseconds const m_start;
+	std::chrono::microseconds m_start;
+
+	static std::chrono::microseconds fast_now()
+	{
+		timeval now;
+		gettimeofday(&now, nullptr);
+		return std::chrono::microseconds{now.tv_sec * 1000 * 1000 + now.tv_usec};
+	}
 };
+
+inline Timer::Timer() : m_start(Timer::fast_now()) {}
+
+inline long Timer::get_s() const
+{
+	return std::chrono::duration_cast<std::chrono::seconds>(Timer::fast_now() - m_start).count();
+}
+
+inline long Timer::get_ms() const
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(Timer::fast_now() - m_start)
+	    .count();
+}
+
+inline long Timer::get_us() const
+{
+	return std::chrono::duration_cast<std::chrono::microseconds>(Timer::fast_now() - m_start)
+	    .count();
+}
+
+inline long Timer::get_ns() const
+{
+	return std::chrono::duration_cast<std::chrono::nanoseconds>(Timer::fast_now() - m_start)
+	    .count();
+}
+
+inline std::string Timer::print() const
+{
+	std::chrono::microseconds dt{fast_now() - m_start};
+	return to_string(dt);
+}
+
 } // end hate namespace
