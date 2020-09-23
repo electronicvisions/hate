@@ -1,7 +1,7 @@
+#include "hate/track_modifications.h"
 #include <chrono>
 #include <thread>
 #include <gtest/gtest.h>
-#include "hate/track_modifications.h"
 
 using namespace hate;
 using namespace std::chrono_literals;
