@@ -1,4 +1,5 @@
 #include "hate/timer.h"
+#include <future>
 #include <thread>
 #include <gtest/gtest.h>
 
@@ -48,4 +49,28 @@ TEST(Timer, General)
 	EXPECT_GE(ms, wait_time);
 	EXPECT_LE(ms, wait_time * 1.1);
 	EXPECT_EQ(s, wait_time / 1000);
+}
+
+TEST(Timer, Overhead)
+{
+	constexpr size_t num = 1000000;
+	std::vector<long> repeat_duration_us;
+	auto const repeat_timer = [num]() {
+		hate::Timer to;
+		for (size_t i = 0; i < num; ++i) {
+			hate::Timer t;
+			[[maybe_unused]] auto volatile end = t.get_us();
+		}
+		return to.get_us();
+	};
+	std::vector<std::future<long>> concurrent_repeats;
+	for (size_t i = 0; i < std::thread::hardware_concurrency(); ++i) {
+		concurrent_repeats.push_back(std::async(std::launch::async, repeat_timer));
+	}
+	long sum_us = 0;
+	for (auto& repeat : concurrent_repeats) {
+		sum_us += repeat.get();
+	}
+	double average_us = static_cast<double>(sum_us) / concurrent_repeats.size() / num;
+	EXPECT_LE(average_us, 0.5);
 }
