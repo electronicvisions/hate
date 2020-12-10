@@ -1,9 +1,11 @@
 @Library("jenlib") _
 
-wafDefaultPipeline(projects: ["hate"],
-                   container: [app: "wafer"],
-                   notificationChannel: "#softies")
+withCcache() {
+	wafDefaultPipeline(projects: ["hate"],
+	                   container: [app: "wafer"],
+	                   notificationChannel: "#softies")
 
-wafDefaultPipeline(projects: ["hate"],
-                   container: [app: "dls-core"],
-                   notificationChannel: "#softies")
+	wafDefaultPipeline(projects: ["hate"],
+	                   container: [app: "dls-core"],
+	                   notificationChannel: "#softies")
+}
