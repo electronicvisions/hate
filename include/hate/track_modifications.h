@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <chrono>
 #include <type_traits>
 #include <utility>
@@ -72,7 +73,7 @@ public:
 	 */
 	auto elapsed() const
 	{
-		return std::chrono::system_clock::now() - m_last_access;
+		return std::chrono::system_clock::now() - m_last_access.load(std::memory_order_acquire);
 	}
 
 	/**
@@ -87,10 +88,10 @@ public:
 private:
 	void modified()
 	{
-		m_last_access = std::chrono::system_clock::now();
+		m_last_access.store(std::chrono::system_clock::now(), std::memory_order_release);
 	}
 
-	std::chrono::system_clock::time_point m_last_access;
+	std::atomic<std::chrono::system_clock::time_point> m_last_access;
 	value_type m_wrapped;
 };
 
