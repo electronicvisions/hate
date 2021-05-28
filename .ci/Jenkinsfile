@@ -2,7 +2,7 @@
 
 withCcache() {
 	wafDefaultPipeline(projects: ["hate"],
-	                   container: [app: "wafer"],
+	                   container: [app: "wafer-nodev"],
 	                   notificationChannel: "#softies")
 
 	wafDefaultPipeline(projects: ["hate"],
