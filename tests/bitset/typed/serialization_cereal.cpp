@@ -4,10 +4,8 @@
 #include "serialization_cases.h"
 #include <gtest/gtest.h>
 
-#include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/archives/portable_binary.hpp>
-#include <cereal/archives/xml.hpp>
 
 #define SERIALIZATION_TEST(OArchive, IArchive)                                                     \
 	TYPED_TEST(CommonSerializationTests, Serialization##IArchive##OArchive)                        \
@@ -31,9 +29,7 @@
 		EXPECT_EQ(obj1, obj2);                                                                     \
 	}
 
-SERIALIZATION_TEST(BinaryOutputArchive, BinaryInputArchive)
 SERIALIZATION_TEST(PortableBinaryOutputArchive, PortableBinaryInputArchive)
 SERIALIZATION_TEST(JSONOutputArchive, JSONInputArchive)
-SERIALIZATION_TEST(XMLOutputArchive, XMLInputArchive)
 
 #undef SERIALIZATION_TEST
