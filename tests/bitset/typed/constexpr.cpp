@@ -10,8 +10,8 @@ TYPED_TEST(CommonSubwordTypeTests, Constexpr)
 
 	AU constexpr TypeParam obj_integer(15);
 
-	AU constexpr TypeParam obj_array(
-	    std::array<typename TypeParam::word_type, TypeParam::num_words>());
+	AU constexpr TypeParam obj_array{
+	    std::array<typename TypeParam::word_type, TypeParam::num_words>()};
 
 	constexpr hate::bitset<7, uint8_t> b;
 	AU constexpr TypeParam obj_bitset(b);
