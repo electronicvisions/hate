@@ -11,10 +11,18 @@ def configure(cfg):
     cfg.load('gtest')
 
 def build(bld):
+    bld.install_files(
+        dest = '${PREFIX}/',
+        files = bld.path.ant_glob('include/hate/**/*.(h)'),
+        name = 'hate_header',
+        relative_trick = True
+    )
+
     # only export include path, header only lib.
     bld(
         target          = 'hate_inc',
         export_includes = 'include',
+        depends_on      = 'hate_header',
     )
 
     # unit tests
