@@ -3,9 +3,11 @@
 withCcache() {
 	wafDefaultPipeline(projects: ["hate"],
 	                   container: [app: "wafer-nodev"],
+	                   configureInstallOptions: "--build-profile=ci",
 	                   notificationChannel: "#softies")
 
 	wafDefaultPipeline(projects: ["hate"],
 	                   container: [app: "dls-core"],
+	                   configureInstallOptions: "--build-profile=ci",
 	                   notificationChannel: "#softies")
 }
