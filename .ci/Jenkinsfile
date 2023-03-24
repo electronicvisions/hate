@@ -1,12 +1,14 @@
-@Library("jenlib") _
+@Library("jenlib@ebrains-4.0") _
 
 withCcache() {
 	wafDefaultPipeline(projects: ["hate"],
 	                   container: [app: "wafer-nodev"],
+	                   setupOptions: "--release-branch=ebrains-4.0",
 	                   configureInstallOptions: "--build-profile=ci",
 	                   notificationChannel: "#softies")
 
 	wafDefaultPipeline(projects: ["hate"],
+	                   setupOptions: "--release-branch=ebrains-4.0",
 	                   container: [app: "dls-core"],
 	                   configureInstallOptions: "--build-profile=ci",
 	                   notificationChannel: "#softies")
