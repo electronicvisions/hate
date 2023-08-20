@@ -4,6 +4,8 @@ withCcache() {
 	wafDefaultPipeline(projects: ["hate"],
 	                   container: [app: "wafer-nodev"],
 	                   configureInstallOptions: "--build-profile=ci",
+	                   enableClangTidy: false,  // no 'bear' in 'wafer-nodev'
+	                   enableCppcheck: false,  // no 'bear' in 'wafer-nodev'
 	                   notificationChannel: "#softies")
 
 	wafDefaultPipeline(projects: ["hate"],
