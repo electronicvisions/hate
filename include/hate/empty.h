@@ -77,7 +77,7 @@ struct remove_empty<Empty<T>>
 } // namespace detail
 
 /**
- * Remove Empty wrapper of given type if it is of form Empty<U>.
+ * Remove Empty wrapper of given type if it is of form `Empty<U>`.
  * @tparam T Type to remove Empty from
  */
 template <typename T>

@@ -257,7 +257,7 @@ public:
 
 	/**
 	 * Get boolean value of bit.
-	 * @param Index of bit to get
+	 * @param index Index of bit to get
 	 * @return Boolean value of bit
 	 */
 	constexpr bool test(size_t index) const;
