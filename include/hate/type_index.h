@@ -23,7 +23,7 @@ template <typename T>
 std::string name()
 {
 	auto const full = full_name<T>();
-	return full.substr(full.rfind(':') + 1);
+	return full.substr(full.rfind(':', full.find('<')) + 1);
 }
 
 } // namespace hate
