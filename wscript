@@ -36,7 +36,7 @@ def build(bld):
     bld(
         target          = 'hate_inc',
         export_includes = 'include',
-        depends_on      = 'hate_header',
+        use             = 'hate_header',
     )
 
     # unit tests
