@@ -32,11 +32,16 @@ def build(bld):
         relative_trick = True
     )
 
-    # only export include path, header only lib.
     bld(
         target          = 'hate_inc',
         export_includes = 'include',
         use             = 'hate_header',
+    )
+
+    bld.shlib(
+        source = bld.path.ant_glob('src/**/*.cpp'),
+        target='hate',
+        use = 'hate_inc',
     )
 
     # unit tests
@@ -44,7 +49,7 @@ def build(bld):
         features = 'cxx cxxprogram gtest',
         source = bld.path.ant_glob('tests/**/*.cpp'),
         target='hate_tests',
-        use = 'hate_inc',
+        use = 'hate',
     )
 
     # documentation
