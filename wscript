@@ -50,6 +50,7 @@ def build(bld):
         source = bld.path.ant_glob('tests/**/*.cpp'),
         target='hate_tests',
         use = 'hate',
+        test_timeout = 120,
     )
 
     # documentation
